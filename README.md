@@ -1,4 +1,4 @@
-# HX Design System
+# Atomic Design System
 
 Atomic design system for **Webflow + Shopify Web Components** storefronts. One
 token source feeds the CSS components (Webflow embeds today) and, later, a JS/Vue
@@ -7,6 +7,47 @@ component track — kept visually identical by sharing the same tokens.
 - **Spec:** [`DESIGN-SYSTEM.md`](./DESIGN-SYSTEM.md) — the canonical contract (tokens, fluid design, AEO, and Cart/Consent/Login/Forms/PDP/Collection/Tags/Category/Quick View feature specs with acceptance criteria).
 - **Tokens:** `tokens/*.json` → Style Dictionary → `src/generated/tokens.{css,js}`.
 - **Components:** vanilla CSS in `src/`, organized by **atomic design** and a layered cascade.
+
+## Business challenge
+
+Building a commerce storefront on **Webflow** (for no-code design control) while pulling
+live data from **Shopify** creates a hard seam: design lives in one place, commerce logic in
+another. In practice that produced —
+
+- **Fragmented UI & drift.** Styling was authored ad-hoc across Webflow custom code, worker
+  embeds, and a reference project, with hardcoded colors/sizes and duplicated tokens. The
+  same button looked different in three places.
+- **Brittle, regression-prone changes.** Small edits caused real breakage: mobile heroes
+  cutting off titles, duplicated "Pairs well with" sections, cart lines dropping variant
+  options, square-corner overrides wiping rounded corners. Every fix risked another.
+- **Slow iteration.** No single source of truth meant a color or radius change had to be made
+  by hand in many files, and couldn't be safely automated.
+- **Poor machine-readability.** The storefront wasn't structured for discovery by search or
+  AI answer engines, nor for AI coding agents to modify reliably.
+
+**The fix:** one normalized **token layer** + an **atomic component library** that both
+Webflow and Shopify Web Components consume — so design is consistent, a change propagates
+once, the UI is fluid/accessible by default, and the whole system is machine-readable.
+
+## AI benefits
+
+This system is built to be consumed by machines as much as humans:
+
+- **AEO (Answer Engine Optimization).** Structured data (JSON-LD) + semantic HTML on every
+  page type make products **discoverable and citable by AI answer engines** (ChatGPT,
+  Perplexity, Google AI Overviews) and agentic shoppers — not just classic SEO.
+- **Agentic commerce ready.** A clean JSON API (`/collection`, `/product`, `/search`,
+  `/recs`) plus structured product data lets **AI shopping agents** read catalog,
+  recommendations, and complete purchases.
+- **AI-assisted development.** Machine-readable contracts — token names, component hooks,
+  acceptance criteria in [`DESIGN-SYSTEM.md`](./DESIGN-SYSTEM.md) and the companion skills —
+  let coding agents (e.g. Claude Code) **build and modify UI reliably and consistently**
+  instead of guessing.
+- **Personalized recommendations.** First-party signals feed an AI-driven "Pairs well with"
+  and search re-ranking, consent-gated, and extensible to GA4 aggregate signals.
+- **Design-tool interoperability.** Style Dictionary tokens are a portable source of truth
+  that **Figma / Tokens Studio and AI tooling can read and write**, keeping design and code
+  in sync.
 
 ## Structure
 
