@@ -57,6 +57,11 @@ This system is built to be consumed by machines as much as humans:
 - **Design-tool interoperability.** Style Dictionary tokens are a portable source of truth
   that **Figma / Tokens Studio and AI tooling can read and write**, keeping design and code
   in sync.
+- **Tag-driven lifecycle automation + AEO.** Products, users, and sessions carry a shared,
+  machine-readable **tag** layer — queried with Shopify search syntax and synced with
+  **upstream systems (WMS, ERP, fraud, customer service)** — that drives lifecycle automation
+  *and* AEO faceting (availability, segments, badges). Idempotent and consent-gated. See
+  [`DESIGN-SYSTEM.md` §14.1](./DESIGN-SYSTEM.md).
 
 ## Structure
 

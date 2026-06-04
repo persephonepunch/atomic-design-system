@@ -274,6 +274,56 @@ Make every page consumable by AI answer engines & search.
 
 ---
 
+## 14.1 AEO + lifecycle automation (tags: products · users · sessions · upstream)
+
+**Tags are the shared, machine-readable substrate** that both drive **lifecycle automation**
+and power **AEO** (faceted discovery). The same tags are read by humans (Shopify admin,
+Webflow curation), agents (recommendations, agentic shoppers), and upstream systems — and are
+queried with **Shopify's search syntax** (`field:value`, `AND/OR/NOT`, ranges `:>` `:>=` `:<`
+`:<=`, prefix `*`, phrase `"…"`, grouping `( )`), the same grammar across Admin, Storefront,
+and customer queries.
+
+### Tagged entities & example taxonomy
+- **Products** — `lifecycle:preorder|live|clearance|discontinued`, `restock:soon`,
+  `channel:web|retail`, `badge:new|bestseller|sale`, attribute facets (`switch:linear`).
+- **Users (customers)** — `segment:vip|wholesale`, `churn-risk`, `consent:granted|denied`,
+  `loyalty:tier-2`, `cs:complaint-open`.
+- **Sessions / orders** — `fraud:review|cleared`, `fulfillment:backorder|dropship`,
+  `source:ai-agent`, `cart:abandoned`.
+
+### Query interface (Shopify search syntax)
+- Segment VIPs without an open complaint — `tag:vip AND -tag:'cs:complaint-open'`
+- Web products needing restock — `tag:restock:soon AND tag:channel:web AND inventory_total:<=10`
+- Orders flagged for fraud in a window — `tag:fraud:review AND created_at:>'2026-06-01'`
+- Facets for AEO — `tag:badge:*` (any badge), `-published_at:*` (find unpublished)
+> Value must immediately follow `field:` (no space); quote composite values; `NOT` must be
+> capitalized (or use `-`); ranges use `:>`/`:>=`/`:<`/`:<=` (not `:=`). Malformed queries are
+> ignored field-by-field — validate with the `Shopify-Search-Query-Debug=1` header.
+
+### Upstream services — tags as the integration contract
+| System | Writes tags (inbound) | Reads / acts (outbound) | Storefront / AEO effect |
+|---|---|---|---|
+| **WMS** (warehouse) | `fulfillment:backorder\|dropship`, `bin:*` | fulfillment routing | availability + `Offer.availability` schema |
+| **ERP** | `lifecycle:discontinued`, price/cost master, `channel:*` | catalog + pricing master | price/availability accuracy; `Offer.price` |
+| **Fraud** | `fraud:review\|cleared` | checkout gating / holds | block/hold; never personalize a flagged session |
+| **Customer Service** | `cs:complaint-open`, `segment:vip` | routing, SLA, win-back | personalization signal + `FAQPage` schema |
+
+### Sync, idempotency & consent
+- **Channels:** real-time (Shopify webhooks / GA4) vs ~15-min cron (ERP / WMS). Tag writes are
+  **declarative + idempotent** — reconcile the full tag set, never blind-append duplicates.
+- **Consent:** user/session tags that drive personalization are gated by
+  `personalizationAllowed()`; fraud/compliance tags are honored regardless of consent.
+- **Source of truth:** PIM (Xano) reconciles upstream tags before they reach Shopify/Webflow;
+  the worker exposes them via `/collection` / `/search` as `tags[]`.
+- **AEO tie-in:** product tags map to structured-data facets (category, availability,
+  attributes) and `ItemList` / `CollectionPage` faceting, so lifecycle state is discoverable
+  and queryable by answer engines and agentic shoppers.
+- **Acceptance:** ✅ lifecycle/segment/fraud tags round-trip with upstream systems
+  idempotently; ✅ search-syntax segments resolve correctly; ✅ personalization tags
+  consent-gated; ✅ tag-driven facets surface in structured data.
+
+---
+
 ## 15. Cross-cutting requirements
 
 - **i18n:** Webflow Localization for static content; runtime i18n (e.g. `vue-i18n`) for dynamic islands; product translations from Shopify/Xano; detect locale from URL/`lang`; `hreflang` emitted.
