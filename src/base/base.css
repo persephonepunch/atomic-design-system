@@ -1,0 +1,20 @@
+/* Base layer — fallback baseline (imported into @layer base).
+ *
+ * Keep this MINIMAL. On Webflow, Webflow's own normalize + form base
+ * (.w-input / .w-select / .w-form-done / .w-form-fail) already apply — do NOT
+ * re-reset form controls here or it breaks Webflow's error/success UX.
+ * For standalone (non-Webflow) usage, add `@import "normalize.css"` above this.
+ */
+*, *::before, *::after { box-sizing: border-box; }
+
+:where(img, svg, video, canvas) { max-width: 100%; height: auto; display: block; }
+
+:where(button, input, select, textarea) { font: inherit; color: inherit; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

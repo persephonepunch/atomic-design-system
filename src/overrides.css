@@ -1,0 +1,38 @@
+/* Overrides layer (highest precedence in the cascade — see src/index.css).
+ *
+ * This is the only place !important is sanctioned, and only to defeat a HOST
+ * system's styling (e.g. Webflow themes, or a legacy storefront). All values
+ * stay token-driven so overrides still theme.
+ */
+
+/* ── Rounded corners ─────────────────────────────────────────────────────────
+ * Some legacy storefronts force square corners globally, e.g.
+ *   #pim-body-wrap * { border-radius: 0 !important; }
+ * (the OMEN/HyperX site does exactly this). Re-apply the design-system radius
+ * to our components so rounded corners survive that override. Add/trim
+ * selectors here as components are adopted.
+ */
+@layer overrides {
+  .pim-round-reapply,
+  .pim-btn,
+  .pim-field,
+  .pim-card,
+  .pim-badge,
+  .qv-thumb,
+  .qv-variant-thumb,
+  .pairs-row-img {
+    border-radius: var(--pim-radius-md) !important;
+  }
+
+  /* Pill / circular elements keep their full radius even under a square host */
+  .pim-round-full,
+  .pim-swatch,
+  .pim-variant-thumb { border-radius: var(--pim-radius-full) !important; }
+
+  /* ── Radius utilities (opt-in, force-win over host) ── */
+  .pim-round-none { border-radius: 0 !important; }
+  .pim-round-sm   { border-radius: var(--pim-radius-sm) !important; }
+  .pim-round-md   { border-radius: var(--pim-radius-md) !important; }
+  .pim-round-lg   { border-radius: var(--pim-radius-lg) !important; }
+  .pim-round-xl   { border-radius: var(--pim-radius-xl) !important; }
+}

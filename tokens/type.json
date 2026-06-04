@@ -1,0 +1,13 @@
+{
+  "font": {
+    "family": { "value": "system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" }
+  },
+  "text": {
+    "xs":   { "value": "clamp(0.75rem, 0.7rem + 0.2vw, 0.8125rem)" },
+    "sm":   { "value": "clamp(0.8125rem, 0.75rem + 0.25vw, 0.875rem)" },
+    "base": { "value": "clamp(0.875rem, 0.8rem + 0.3vw, 1rem)" },
+    "lg":   { "value": "clamp(1.125rem, 0.9rem + 0.9vw, 1.375rem)" },
+    "xl":   { "value": "clamp(1.25rem, 1rem + 1vw, 1.5rem)" },
+    "2xl":  { "value": "clamp(1.5rem, 1.2rem + 1.5vw, 2rem)" }
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "name": "@hx/design-system",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Atomic design system for Webflow + Shopify Web Components storefronts. Style Dictionary tokens; vanilla CSS + Shopify Storefront Web Components, deliverable as Webflow embeds. Structured for incremental adoption of a component library (Vue/UIkit) or overriding a legacy system.",
+  "scripts": {
+    "build:tokens": "style-dictionary build --config style-dictionary.config.mjs",
+    "build": "npm run build:tokens"
+  },
+  "devDependencies": {
+    "style-dictionary": "^4.3.0"
+  },
+  "license": "UNLICENSED"
+}

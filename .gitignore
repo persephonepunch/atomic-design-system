@@ -1,0 +1,11 @@
+# Dependencies
+node_modules/
+
+# Build artifacts (src/generated/* is committed so the system is usable without a build)
+dist/
+
+# OS / editor
+.DS_Store
+*.log
+.vscode/
+.idea/

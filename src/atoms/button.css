@@ -1,0 +1,29 @@
+/* Atom: Button (.pim-btn). Token-driven; no !important — the layered cascade
+ * (atoms < overrides) lets the overrides layer win when it must. */
+.pim-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--pim-space-2);
+  font-family: var(--pim-font-family);
+  font-size: var(--pim-text-sm);
+  font-weight: 600;
+  line-height: 1.2;
+  padding: var(--pim-space-3) var(--pim-space-5);
+  border: 1px solid var(--pim-color-primary);
+  border-radius: var(--pim-radius-md);
+  background: var(--pim-color-bg);
+  color: var(--pim-color-primary);
+  cursor: pointer;
+  transition: background var(--pim-transition-fast), color var(--pim-transition-fast);
+}
+.pim-btn:hover { background: var(--pim-color-bg-surface); }
+.pim-btn:focus-visible { outline: 2px solid var(--pim-color-focus); outline-offset: 2px; }
+
+/* Solid (primary) variant */
+.pim-btn--solid { background: var(--pim-color-primary); color: var(--pim-color-text-inverse); }
+.pim-btn--solid:hover { background: var(--pim-color-primary-hover); }
+
+/* Disabled */
+.pim-btn:disabled,
+.pim-btn[aria-disabled="true"] { opacity: 0.4; cursor: not-allowed; }

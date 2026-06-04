@@ -1,0 +1,39 @@
+/* Atom: Form field (.pim-field) + states. See DESIGN-SYSTEM.md §8.1.
+ *
+ * Layered ON TOP of Webflow's .w-input base — does not re-reset the control.
+ * Validation styling uses :user-invalid / :user-valid so it only shows AFTER
+ * the user interacts (bare :invalid fires immediately and is hostile).
+ */
+.pim-field {
+  font-family: var(--pim-font-family);
+  font-size: var(--pim-text-sm);
+  width: 100%;
+  padding: var(--pim-space-3);
+  border: 1px solid var(--pim-color-border);
+  border-radius: var(--pim-radius-md);
+  background: var(--pim-color-bg);
+  color: var(--pim-color-primary);
+  transition: border-color var(--pim-transition-fast);
+}
+.pim-field:focus-visible {
+  outline: 2px solid var(--pim-color-focus);
+  outline-offset: 1px;
+  border-color: var(--pim-color-focus);
+}
+.pim-field:user-invalid,
+.pim-field[aria-invalid="true"] { border-color: var(--pim-color-sale); }
+.pim-field:user-valid { border-color: var(--pim-color-new); }
+.pim-field:disabled {
+  background: var(--pim-color-bg-muted);
+  color: var(--pim-color-disabled);
+  cursor: not-allowed;
+}
+
+/* Field-level messages (associate via aria-describedby; never color-only) */
+.pim-field-error   { color: var(--pim-color-sale); font-size: var(--pim-text-xs); margin-top: var(--pim-space-1); }
+.pim-field-success { color: var(--pim-color-new);  font-size: var(--pim-text-xs); margin-top: var(--pim-space-1); }
+
+/* Theme Webflow's native form-level result messages to tokens (don't restyle
+ * their layout — just the state accent). */
+.w-form-fail { border-left: 3px solid var(--pim-color-sale); }
+.w-form-done { border-left: 3px solid var(--pim-color-new); }

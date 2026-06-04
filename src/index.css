@@ -1,0 +1,25 @@
+/* Design System entry point.
+ *
+ * Cascade is controlled by @layer order (declared first), NOT by source order
+ * or specificity hacks. Lowest → highest precedence:
+ *   base < tokens < atoms < molecules < organisms < templates < overrides
+ *
+ * Import this whole file, or cherry-pick layers. Only the `overrides` layer is
+ * allowed to use !important (to defeat host/legacy styling).
+ */
+@layer base, tokens, atoms, molecules, organisms, templates, overrides;
+
+@import "./base/base.css" layer(base);
+@import "./generated/tokens.css" layer(tokens);
+
+/* Atoms */
+@import "./atoms/button.css" layer(atoms);
+@import "./atoms/field.css" layer(atoms);
+
+/* Molecules / Organisms / Templates — add @import lines here as built.
+ * @import "./molecules/product-card.css" layer(molecules);
+ * @import "./organisms/quick-view.css" layer(organisms);
+ */
+
+/* Overrides (rounded corners, legacy un-square, host defeats) */
+@import "./overrides.css";
