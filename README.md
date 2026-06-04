@@ -1,8 +1,9 @@
 # Atomic Design System
 
-Atomic design system for **Webflow + Shopify Web Components** storefronts. One
-token source feeds the CSS components (Webflow embeds today) and, later, a JS/Vue
-component track — kept visually identical by sharing the same tokens.
+Atomic design system for **Webflow + Shopify Web Components** storefronts — a shared,
+machine-readable contract for both **human and agent state managers**. One token source
+feeds the CSS components and a JS/Vue component track, kept visually identical by sharing the
+same tokens.
 
 - **Spec:** [`DESIGN-SYSTEM.md`](./DESIGN-SYSTEM.md) — the canonical contract (tokens, fluid design, AEO, and Cart/Consent/Login/Forms/PDP/Collection/Tags/Category/Quick View feature specs with acceptance criteria).
 - **Tokens:** `tokens/*.json` → Style Dictionary → `src/generated/tokens.{css,js}`.
@@ -10,9 +11,16 @@ component track — kept visually identical by sharing the same tokens.
 
 ## Business challenge
 
-Building a commerce storefront on **Webflow** (for no-code design control) while pulling
-live data from **Shopify** creates a hard seam: design lives in one place, commerce logic in
-another. In practice that produced —
+This is a **Dynamic Reactive Component Build System**, not a static no-code site: **Webflow
+is the content-curation and compile layer** (editors curate copy, media, and page structure;
+it compiles to markup + variables), while **Shopify Web Components** stream live commerce data
+into the same components at runtime. The system is governed by one design-system contract that
+**both human and agent state managers** read and write — humans curating in Webflow/Shopify,
+and agents (recommendations, agentic shoppers, AI coding agents) reading the same tokens,
+hooks, and data.
+
+Without that shared contract the two halves drift apart — content/state in Webflow, commerce
+state in Shopify + services — and in practice that produced —
 
 - **Fragmented UI & drift.** Styling was authored ad-hoc across Webflow custom code, worker
   embeds, and a reference project, with hardcoded colors/sizes and duplicated tokens. The
@@ -25,9 +33,10 @@ another. In practice that produced —
 - **Poor machine-readability.** The storefront wasn't structured for discovery by search or
   AI answer engines, nor for AI coding agents to modify reliably.
 
-**The fix:** one normalized **token layer** + an **atomic component library** that both
-Webflow and Shopify Web Components consume — so design is consistent, a change propagates
-once, the UI is fluid/accessible by default, and the whole system is machine-readable.
+**The fix:** one normalized **token layer** + an **atomic component library** consumed from a
+single source by Webflow (content + compile), Shopify Web Components (commerce data), and AI
+agents alike — so design is consistent, a change propagates once, the UI is fluid/accessible
+by default, and runtime state stays legible to both human and agent state managers.
 
 ## AI benefits
 
