@@ -1,10 +1,11 @@
 {
   "radius": {
-    "sm":   { "value": "0.25rem" },
-    "md":   { "value": "0.375rem" },
-    "lg":   { "value": "0.5rem" },
-    "xl":   { "value": "0.75rem" },
-    "full": { "value": "50%" }
+    "sm":      { "value": "0.25rem" },
+    "md":      { "value": "0.375rem" },
+    "lg":      { "value": "0.5rem" },
+    "xl":      { "value": "0.75rem" },
+    "full":    { "value": "50%" },
+    "default": { "value": "{radius.md}", "comment": "component default radius; overrides re-apply this when a host forces square corners" }
   },
   "space": {
     "1": { "value": "0.25rem" },

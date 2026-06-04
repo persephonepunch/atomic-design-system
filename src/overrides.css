@@ -21,7 +21,7 @@
   .qv-thumb,
   .qv-variant-thumb,
   .pairs-row-img {
-    border-radius: var(--pim-radius-md) !important;
+    border-radius: var(--pim-radius-default) !important;
   }
 
   /* Pill / circular elements keep their full radius even under a square host */

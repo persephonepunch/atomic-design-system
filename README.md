@@ -89,9 +89,9 @@ src/
   (Webflow / legacy storefront) — never between our own components.
 
 ### Rounded corners
-Legacy storefronts sometimes force square corners globally
-(`#pim-body-wrap * { border-radius: 0 !important }`). `src/overrides.css` re-applies
-the token radius to components and provides opt-in utilities:
+Rounding is **token-controlled** via `--pim-radius-default` (defined in
+[`tokens/layout.json`](./tokens/layout.json)). When a host force-squares corners,
+`src/overrides.css` re-applies that token to components, plus opt-in utilities
 `.pim-round-none|-sm|-md|-lg|-xl|-full` and `.pim-round-reapply`.
 
 ## Tokens
