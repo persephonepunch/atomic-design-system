@@ -41,6 +41,40 @@ Worker JSON API (PIM/Xano/Shopify) ─┘        │
 
 ---
 
+## 2.1 State management (human + agent state managers)
+
+The storefront is a **dynamic reactive component build system**: Webflow is the
+content-curation + compile layer, Shopify Web Components stream commerce data, and a worker
+API serves PIM/search/recs. Multiple kinds of *state* flow through the same components, owned
+or observed by **human** managers (editors, merchandisers) and **agent** managers
+(recommendation engines, agentic shoppers, AI coding agents). The design system is the shared
+contract that keeps that state legible to both.
+
+| State domain | Source / store | Human manager | Agent manager | How the system exposes it |
+|---|---|---|---|---|
+| **Content** (copy, media, page structure, merchandising) | Webflow (compiles to markup + Variables) | Editors curate in Webflow | AI coding agents edit embeds/components | Stable mount points + class/ID hooks |
+| **Commerce** (catalog, variants, inventory, price, cart, auth) | Shopify | Merchants in Shopify admin | Agentic shoppers read/buy | Shopify Web Components + worker JSON API + JSON-LD |
+| **Catalog / PIM** (normalized products, translations, recs source) | Xano (workspace 4) | Ops normalize PIM | Recs engine reads | `/collection` · `/product` · `/search` |
+| **UI / session** (selected variant, cart, recently-viewed, filters, modal) | Client (`_pdpSelectedVariant`, localStorage cart, `__pim_rv`) | — (set by user actions) | Personalization agent reads recently-viewed | Documented globals + hooks |
+| **Consent** | `window.__SYNC.consent` / `pim_consent` cookie | User choice via banner | All agents must honor it | `personalizationAllowed()` gate |
+| **Personalization / recommendations** | Worker `/recs` (+ GA4 later) | — | Recs agent owns | `/recs?handle=&rv=`, consent-gated |
+| **Design tokens** (the visual contract) | `tokens/*.json` → CSS vars + JS | Designers (Figma/Tokens Studio) | AI tooling reads/writes | `--pim-*` custom properties + JS constants |
+
+**Principles for shared state**
+- **One addressable surface.** Stable hooks (`#mainpdp`, `#qv-dialog`, `.cardcolumn`, …) and
+  global APIs (`window._cartAdd`, `_pdpSelectedVariant`, `_variantLabel`, `__pimRvTypes`) are
+  the contract both humans (in Webflow) and agents target — never ad-hoc selectors.
+- **Machine-readable everywhere.** State that agents must act on is exposed as JSON (worker
+  API), JSON-LD (structured data), or typed constants (tokens.js) — not locked in markup.
+- **Consent is the shared gate.** Human and agent managers both honor `personalizationAllowed()`;
+  no personalization/tracking state is read or written without consent.
+- **Single source of truth per domain.** Each state domain has exactly one owner/store; the
+  design system binds the views, it doesn't fork the state.
+- **Verifiable by contract.** The acceptance criteria in each feature spec are the checks an
+  agent (or human) validates a change against, so automated edits stay safe.
+
+---
+
 ## 3. Design tokens (canonical)
 
 All components reference `var(--token, fallback)`. Define once on `:root` (Webflow Variables / footer). **Normalize drift before adopting** (`--pim-color-primary` → one value; `--pim-color-text-muted` → one; `--pim-color-overlay` → one).
