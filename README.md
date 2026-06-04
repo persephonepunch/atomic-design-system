@@ -8,6 +8,7 @@ same tokens.
 - **Spec:** [`DESIGN-SYSTEM.md`](./DESIGN-SYSTEM.md) — the canonical contract (tokens, fluid design, AEO, and Cart/Consent/Login/Forms/PDP/Collection/Tags/Category/Quick View feature specs with acceptance criteria).
 - **Tokens:** `tokens/*.json` → Style Dictionary → `src/generated/tokens.{css,js}`.
 - **Components:** vanilla CSS in `src/`, organized by **atomic design** and a layered cascade.
+- **Architecture / IA:** [`docs/ARCHITECTURE-IA.md`](./docs/ARCHITECTURE-IA.md) (Auth · Asset · Design-Component bridge — the basis for a new project bootstrapped from this repo), [`docs/GLOBAL-ASSET-MANAGEMENT.md`](./docs/GLOBAL-ASSET-MANAGEMENT.md) (R2 + Xano registry + `/asset` service), [`docs/AVATAR-SPRINT.md`](./docs/AVATAR-SPRINT.md).
 
 ## Business challenge
 
